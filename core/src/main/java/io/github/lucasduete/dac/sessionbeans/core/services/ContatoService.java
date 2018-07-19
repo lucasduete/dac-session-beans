@@ -1,6 +1,7 @@
 package io.github.lucasduete.dac.sessionbeans.core.services;
 
 import io.github.lucasduete.dac.sessionbeans.core.dao.ContatoDao;
+import io.github.lucasduete.dac.sessionbeans.core.dao.ContatoDaoInterface;
 import io.github.lucasduete.dac.sessionbeans.shared.entities.Contato;
 import io.github.lucasduete.dac.sessionbeans.shared.services.ContatoServiceInterface;
 import java.sql.SQLException;
@@ -8,13 +9,14 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 
 @Stateless
 @Remote(ContatoServiceInterface.class)
 public class ContatoService implements ContatoServiceInterface {
     
-    @EJB
-    private ContatoDao contatoDao;
+    @Inject
+    private ContatoDaoInterface contatoDao;
 
     @Override
     public boolean salvar(Contato contato) throws ClassNotFoundException, SQLException {

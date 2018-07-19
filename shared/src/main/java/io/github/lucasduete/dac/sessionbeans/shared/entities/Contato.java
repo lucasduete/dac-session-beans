@@ -1,9 +1,10 @@
 package io.github.lucasduete.dac.sessionbeans.shared.entities;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class Contato {
+public class Contato implements Serializable {
     
     private String nome;
     private String email;

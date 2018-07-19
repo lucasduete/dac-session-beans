@@ -8,12 +8,14 @@ import java.util.ArrayList;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import java.util.List;
+import javax.ejb.EJB;
 
 @Named
 @RequestScoped
 public class ContatoController {
 
-    ContatoServiceInterface contatoService = null;
+    @EJB
+    ContatoServiceInterface contatoService;
 
     Contato contato = new Contato();
 
