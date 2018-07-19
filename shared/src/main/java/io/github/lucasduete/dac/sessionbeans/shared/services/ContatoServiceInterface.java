@@ -1,14 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package io.github.lucasduete.dac.sessionbeans.shared.services;
 
-/**
- *
- * @author lucasduete
- */
-public class ContatoServiceInterface {
+import io.github.lucasduete.dac.sessionbeans.shared.entities.Contato;
+import java.util.List;
+
+public interface ContatoServiceInterface {
+    
+    public boolean salvar(Contato contato);
+    public boolean editar(Contato contato);
+    public boolean excluir(Contato contato);
+    public Contato pesquisarByNome(String nome);
+    public List<Contato> listarOrdemAlfabetica();  
     
 }
