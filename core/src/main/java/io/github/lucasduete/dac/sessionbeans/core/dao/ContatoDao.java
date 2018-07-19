@@ -131,7 +131,30 @@ public class ContatoDao implements ContatoDaoInterface {
     
     @Override
     public List<Contato> agruparContatoPorNome() throws ClassNotFoundException, SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int resultado = 0;
+        
+        con = this.getConnection();
+        
+        String sql = "SELECT * FROM Contato ORDER BY Nome";
+        
+        stmt = con.prepareStatement(sql);
+        
+        ResultSet rs = stmt.executeQuery();
+        
+        List<Contato> contatos = new ArrayList<>();
+        
+        while(rs.next()){
+            Contato contato = new Contato();
+            
+            contato.setDataNascimento(rs.getObject("dataNascimento", LocalDate.class));
+            contato.setEmail(rs.getString("email"));
+            contato.setNome(rs.getString("nome"));
+            contato.setTelefone(rs.getString("telefone"));
+            
+            contatos.add(contato);            
+        }
+        
+        return contatos;
     }
     
      private Connection getConnection() throws ClassNotFoundException, SQLException {
