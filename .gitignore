@@ -1,1 +1,7 @@
+<<<<<<< HEAD
 /shared/target/
+=======
+*/target/*
+*/nb-configuration.xml
+*/*.iml
+>>>>>>> 6017c57615b0448e8e5e7342a13c4ad54da2be7d
