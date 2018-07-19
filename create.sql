@@ -1,0 +1,6 @@
+CREATE TABLE Contato (
+	Email VARCHAR(150) PRIMARY KEY,
+	Nome VARCHAR(150) NOT NULL,
+	Telefone VARCHAR(11) NOT NULL,
+	dataNascimento DATE NOT NULL
+);

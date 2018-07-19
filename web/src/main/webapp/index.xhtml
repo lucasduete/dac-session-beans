@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+    <head>
+
+    </head>
+
+    <body jsf:id="body">
+        <form jsf:id="form">
+            <input type="text" jsf:value="${contatoController.contato.nome}" placeholder="Nome do Contato" />
+            <input type="text" jsf:value="${contatoController.contato.email}" placeholder="Email do Contato" />
+            <input type="text" jsf:value="${contatoController.contato.telefone}" placeholder="Telefone do Contato" />
+            <input type="date" jsf:value="${contatoController.contato.dataNascimento}" jsf:converter="converter.Date" />
+
+            <button jsf:action="${contatoController.salvar()}">Salvar</button>
+        </form>
+
+        <h:form>
+            <h:dataTable value="#{contatoController.listarOrdemAlfabetica()}"  var="contato">
+                <h:column>
+                    <f:facet name="header">Nome</f:facet>#{contato.nome}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Email</f:facet>#{contato.email}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Email</f:facet>#{contato.telefone}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Data de Nascimento</f:facet>#{contato.dataNascimento}
+                </h:column>
+                <h:column>
+                    <h:commandButton value="X" action="#{contatoController.excluir(contato)}" />
+                </h:column>
+                <h:column>
+                    <h:commandButton value="edit" action="#{integranteController.editando(integrante)}" />
+                </h:column>
+            </h:dataTable>
+        </h:form>
+    </body>
+
+</html>
