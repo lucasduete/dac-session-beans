@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 
@@ -43,7 +45,8 @@ public class ContatoDao implements ContatoDaoInterface {
 
     @Override
     public boolean editar(Contato contato) {
-        String sql = "UPDATE FROM Contato SET nome = ?, telefone = ?, dataNascimento = ? WHERE email = ?";
+        String sql = "UPDATE Contato SET nome = ?, telefone = ?, dataNascimento = ? "
+                + "WHERE email = ?";
         
         try {
             PreparedStatement stmt = con.prepareStatement(sql);
@@ -52,9 +55,10 @@ public class ContatoDao implements ContatoDaoInterface {
             stmt.setString(2, contato.getTelefone());
             stmt.setObject(3, contato.getDataNascimento());
             stmt.setString(4, contato.getEmail());
-        
+
             if (stmt.executeUpdate() > 0) return true;
         } catch(SQLException ex) {
+            Logger.getLogger(ContatoDao.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
         }
         

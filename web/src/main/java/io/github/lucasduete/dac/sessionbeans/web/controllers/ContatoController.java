@@ -6,16 +6,16 @@ import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
+import javax.enterprise.context.SessionScoped;
 
 @Named
-@RequestScoped
-public class ContatoController {
+@SessionScoped
+public class ContatoController implements Serializable {
 
     @EJB
     ContatoServiceInterface contatoService;
@@ -67,14 +67,16 @@ public class ContatoController {
     
     public String atualizar() {
         try {
-            boolean result = this.contatoService.editar(contato);
-        } catch (ClassNotFoundException ex) {
+            if (contatoService.editar(contato)) {
+                this.contato = new Contato();
+                this.modoEditando = false;
+            }
+            
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(ContatoController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(ContatoController.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
         
-        this.modoEditando = false;
         return "";
     }
 
