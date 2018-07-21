@@ -18,7 +18,8 @@
             <input type="text" jsf:value="${contatoController.contato.telefone}" placeholder="Telefone do Contato" />
             <input type="date" jsf:value="${contatoController.contato.dataNascimento}" jsf:converter="converter.Date" />
 
-            <button jsf:action="${contatoController.salvar()}">Salvar</button>
+            <button jsf:action="${contatoController.salvar()}" jsf:rendered="${not contatoController.modoEditando}">Salvar</button>
+            <button jsf:action="${contatoController.atualizar()}" jsf:rendered="${contatoController.modoEditando}">Atualizar</button>
         </form>
 
         <h:form>
@@ -39,7 +40,7 @@
                     <h:commandButton value="X" action="#{contatoController.excluir(contato)}" />
                 </h:column>
                 <h:column>
-                    <h:commandButton value="edit" action="#{integranteController.editando(integrante)}" />
+                    <h:commandButton value="editar" action="#{contatoController.editar(contato)}" />
                 </h:column>
             </h:dataTable>
         </h:form>

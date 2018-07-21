@@ -12,152 +12,147 @@ import javax.ejb.Local;
 import javax.ejb.Stateless;
 
 @Stateless
-@Local
+@Local(ContatoDaoInterface.class)
 public class ContatoDao implements ContatoDaoInterface {
     private Connection con = null;
-    private PreparedStatement stmt = null;
     
-    @Override
-    public boolean salvar(Contato contato) throws ClassNotFoundException, SQLException{
-        int resultado = 0;
-        con = this.getConnection();
-        String sql = "INSERT INTO Contato(nome, email, telefone, dataNascimento)"
-                + "     VALUES(?, ?, ?, ?)";
-
-        stmt = con.prepareStatement(sql);
+    public ContatoDao() throws ClassNotFoundException, SQLException {
+        con = new ConFactory().getConnection();
         
-        stmt.setString(1, contato.getNome());
-        stmt.setString(2, contato.getEmail());
-        stmt.setString(3, contato.getTelefone());
-        stmt.setObject(4, contato.getDataNascimento());
+    }
+        
+    @Override
+    public boolean salvar(Contato contato) {
+        String sql = "INSERT INTO Contato(nome, email, telefone, dataNascimento) VALUES(?,?,?,?);";
 
-        resultado = stmt.executeUpdate();
+        try {
+            PreparedStatement stmt = con.prepareStatement(sql);
+        
+            stmt.setString(1, contato.getNome());
+            stmt.setString(2, contato.getEmail());
+            stmt.setString(3, contato.getTelefone());
+            stmt.setObject(4, contato.getDataNascimento());
 
-        stmt.close();
-        con.close();
-
-        return resultado > 0;
+            if (stmt.executeUpdate() > 0) return true;
+        } catch(SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        return false;
     }
 
     @Override
-    public boolean editar(Contato contato) throws ClassNotFoundException, SQLException{
-        int resultado = 0;
-        con = this.getConnection();
+    public boolean editar(Contato contato) {
         String sql = "UPDATE FROM Contato SET nome = ?, telefone = ?, dataNascimento = ? WHERE email = ?";
         
-        stmt = con.prepareStatement(sql);
+        try {
+            PreparedStatement stmt = con.prepareStatement(sql);
         
-        stmt.setString(1, contato.getNome());
-        stmt.setString(2, contato.getTelefone());
-        stmt.setObject(3, contato.getDataNascimento());
-        stmt.setString(4, contato.getEmail());
+            stmt.setString(1, contato.getNome());
+            stmt.setString(2, contato.getTelefone());
+            stmt.setObject(3, contato.getDataNascimento());
+            stmt.setString(4, contato.getEmail());
         
-        resultado = stmt.executeUpdate();
+            if (stmt.executeUpdate() > 0) return true;
+        } catch(SQLException ex) {
+            ex.printStackTrace();
+        }
         
-        stmt.close();
-        con.close();
-        
-        return resultado > 0;        
+        return false;
     }
 
     @Override
-    public boolean excluir(Contato contato) throws ClassNotFoundException, SQLException{
-        int resultado = 0;
-        
-        con = this.getConnection();
-        
+    public boolean excluir(Contato contato) { 
         String sql = "DELETE FROM Contato WHERE email = ?";
         
-        stmt = con.prepareStatement(sql);
-        stmt.setString(1, contato.getEmail());
+        try {
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setString(1, contato.getEmail());
         
-        resultado = stmt.executeUpdate();
+            if (stmt.executeUpdate() > 0) return true;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
         
-        stmt.close();
-        con.close();
-        
-        return resultado > 0;
+        return false;
     }
 
     @Override
-    public Contato recuperar(String nome) throws ClassNotFoundException, SQLException{
-        int resultado = 0;
-        
-        con = this.getConnection();
-        
+    public Contato recuperar(String nome) {
         String sql = "SELECT * FROM Contato WHERE nome = ?";
         
-        stmt = con.prepareStatement(sql);
+        try {
+            PreparedStatement stmt = con.prepareStatement(sql);
         
-        ResultSet rs = stmt.executeQuery();
-               
-        Contato contato = new Contato();
-            
-        contato.setDataNascimento(rs.getObject("dataNascimento", LocalDate.class));
-        contato.setEmail(rs.getString("email"));
-        contato.setNome(rs.getString("nome"));
-        contato.setTelefone(rs.getString("telefone"));
+            ResultSet rs = stmt.executeQuery();
+
+            if(rs.next()) {
+                Contato contato = new Contato();
+
+                contato.setDataNascimento(rs.getObject("dataNascimento", LocalDate.class));
+                contato.setEmail(rs.getString("email"));
+                contato.setNome(rs.getString("nome"));
+                contato.setTelefone(rs.getString("telefone"));
+
+                return contato;    
+            }
+        } catch(SQLException ex) {
+            ex.printStackTrace();
+        }
         
-        return contato;
+        return null;
     }
 
     @Override
-    public List<Contato> listar() throws ClassNotFoundException, SQLException {
-        int resultado = 0;
-        
-        con = this.getConnection();
-        
+    public List<Contato> listar() {
         String sql = "SELECT * FROM Contato ORDER BY Nome";
-        
-        stmt = con.prepareStatement(sql);
-        
-        ResultSet rs = stmt.executeQuery();
-        
         List<Contato> contatos = new ArrayList<>();
         
-        while(rs.next()){
-            Contato contato = new Contato();
-            
-            contato.setDataNascimento(rs.getObject("dataNascimento", LocalDate.class));
-            contato.setEmail(rs.getString("email"));
-            contato.setNome(rs.getString("nome"));
-            contato.setTelefone(rs.getString("telefone"));
-            
-            contatos.add(contato);            
+        try {
+            PreparedStatement stmt = con.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next()) {
+                Contato contato = new Contato();
+
+                contato.setDataNascimento(rs.getObject("dataNascimento", LocalDate.class));
+                contato.setEmail(rs.getString("email"));
+                contato.setNome(rs.getString("nome"));
+                contato.setTelefone(rs.getString("telefone"));
+
+                contatos.add(contato);            
+            }
+        } catch(SQLException ex) {
+            ex.printStackTrace();
         }
         
         return contatos;
     }
     
     @Override
-    public List<Contato> agruparContatoPorNome() throws ClassNotFoundException, SQLException {
-        int resultado = 0;
-        
-        con = this.getConnection();
-        
+    public List<Contato> agruparContatoPorNome() {        
         String sql = "SELECT * FROM Contato ORDER BY Nome";
-        
-        stmt = con.prepareStatement(sql);
-        
-        ResultSet rs = stmt.executeQuery();
-        
         List<Contato> contatos = new ArrayList<>();
-        
-        while(rs.next()){
-            Contato contato = new Contato();
-            
-            contato.setDataNascimento(rs.getObject("dataNascimento", LocalDate.class));
-            contato.setEmail(rs.getString("email"));
-            contato.setNome(rs.getString("nome"));
-            contato.setTelefone(rs.getString("telefone"));
-            
-            contatos.add(contato);            
+
+        try {
+            PreparedStatement stmt = con.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next()) {
+                Contato contato = new Contato();
+
+                contato.setDataNascimento(rs.getObject("dataNascimento", LocalDate.class));
+                contato.setEmail(rs.getString("email"));
+                contato.setNome(rs.getString("nome"));
+                contato.setTelefone(rs.getString("telefone"));
+
+                contatos.add(contato);            
+            }
+        } catch(SQLException ex) {
+            ex.printStackTrace();
         }
         
         return contatos;
     }
     
-     private Connection getConnection() throws ClassNotFoundException, SQLException {
-        return new ConFactory().getConnection();
-    }
 }

@@ -15,7 +15,7 @@ import javax.inject.Inject;
 @Remote(ContatoServiceInterface.class)
 public class ContatoService implements ContatoServiceInterface {
     
-    @Inject
+    @EJB
     private ContatoDaoInterface contatoDao;
 
     @Override

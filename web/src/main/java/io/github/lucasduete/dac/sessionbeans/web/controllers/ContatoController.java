@@ -2,12 +2,15 @@ package io.github.lucasduete.dac.sessionbeans.web.controllers;
 
 import io.github.lucasduete.dac.sessionbeans.shared.entities.Contato;
 import io.github.lucasduete.dac.sessionbeans.shared.services.ContatoServiceInterface;
+import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 
 @Named
@@ -17,7 +20,8 @@ public class ContatoController {
     @EJB
     ContatoServiceInterface contatoService;
 
-    Contato contato = new Contato();
+    private Contato contato = new Contato();
+    private boolean modoEditando = false;
 
     public String salvar() {
         try {
@@ -55,6 +59,24 @@ public class ContatoController {
             return new ArrayList<Contato>();
         }
     }
+    
+    public void editar(Contato contato) {
+        this.contato = contato;
+        modoEditando = true;
+    }
+    
+    public String atualizar() {
+        try {
+            boolean result = this.contatoService.editar(contato);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ContatoController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(ContatoController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        this.modoEditando = false;
+        return "";
+    }
 
     private void limparContato() {
         this.contato = new Contato();
@@ -67,4 +89,9 @@ public class ContatoController {
     public void setContato(Contato contato) {
         this.contato = contato;
     }
+
+    public boolean isModoEditando() {
+        return modoEditando;
+    }
+    
 }
