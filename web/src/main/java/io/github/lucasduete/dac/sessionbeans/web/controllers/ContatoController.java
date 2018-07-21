@@ -42,9 +42,9 @@ public class ContatoController implements Serializable {
         }
     }
 
-    public Contato pesquisarByNome(String nome) {
+    public Contato pesquisarByNome() {
         try {
-            return this.contatoService.pesquisarByNome(nome);
+            return this.contatoService.pesquisarByNome(contato.getNome());
         } catch (ClassNotFoundException | SQLException ex) {
             ex.printStackTrace();
             return new Contato();

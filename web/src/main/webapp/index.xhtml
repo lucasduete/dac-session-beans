@@ -14,14 +14,16 @@
     <body jsf:id="body">
         <form jsf:id="form">
             <input type="text" jsf:value="${contatoController.contato.nome}" placeholder="Nome do Contato" />
-            <input type="text" jsf:value="${contatoController.contato.email}" placeholder="Email do Contato" />
+            <input type="text" jsf:value="${contatoController.contato.email}" jsf:rendered="${not contatoController.modoEditando}" placeholder="Email do Contato" />
             <input type="text" jsf:value="${contatoController.contato.telefone}" placeholder="Telefone do Contato" />
             <input type="date" jsf:value="${contatoController.contato.dataNascimento}" jsf:converter="converter.Date" />
 
             <button jsf:action="${contatoController.salvar()}" jsf:rendered="${not contatoController.modoEditando}">Salvar</button>
             <button jsf:action="${contatoController.atualizar()}" jsf:rendered="${contatoController.modoEditando}">Atualizar</button>
         </form>
-
+        
+        <hr/>
+        <h3>Ordem Alfabetica</h3>
         <h:form>
             <h:dataTable value="#{contatoController.listarOrdemAlfabetica()}"  var="contato">
                 <h:column>
@@ -43,7 +45,38 @@
                     <h:commandButton value="editar" action="#{contatoController.editar(contato)}" />
                 </h:column>
             </h:dataTable>
+        </h:form>    
+        
+        <br/><br/>
+        <hr/>
+        <h3>Ordem Alfabetica</h3>
+        <h:form>
+            <h:inputText value="#{contatoController.contato.nome}" />
+            <button onclick="Location.reload()">Pesquisar</button>
+            <h:dataTable value="#{contatoController.pesquisarByNome()}"  var="contato">
+                <h:column>
+                    <f:facet name="header">Nome</f:facet>#{contato.nome}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Email</f:facet>#{contato.email}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Telefone</f:facet>#{contato.telefone}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Data de Nascimento</f:facet>#{contato.dataNascimento}
+                </h:column>
+                <h:column>
+                    <h:commandButton value="X" action="#{contatoController.excluir(contato)}" />
+                </h:column>
+                <h:column>
+                    <h:commandButton value="editar" action="#{contatoController.editar(contato)}" />
+                </h:column>
+            </h:dataTable>
         </h:form>
-    </body>
-
+            
+            
+            
+            
+    </body>    
 </html>

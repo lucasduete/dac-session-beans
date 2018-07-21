@@ -87,6 +87,7 @@ public class ContatoDao implements ContatoDaoInterface {
         
         try {
             PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setString(1, nome);
         
             ResultSet rs = stmt.executeQuery();
 
