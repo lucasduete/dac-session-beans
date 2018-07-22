@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:jsf="http://xmlns.jcp.org/jsf">
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <head>
 
@@ -21,62 +22,88 @@
             <button jsf:action="${contatoController.salvar()}" jsf:rendered="${not contatoController.modoEditando}">Salvar</button>
             <button jsf:action="${contatoController.atualizar()}" jsf:rendered="${contatoController.modoEditando}">Atualizar</button>
         </form>
-        
+
         <hr/>
         <h3>Ordem Alfabetica</h3>
         <h:form>
-            <h:dataTable value="#{contatoController.listarOrdemAlfabetica()}"  var="contato">
+            <h:dataTable value="${contatoController.listarOrdemAlfabetica()}"  var="contato">
                 <h:column>
-                    <f:facet name="header">Nome</f:facet>#{contato.nome}
+                    <f:facet name="header">Nome</f:facet>${contato.nome}
                 </h:column>
                 <h:column>
-                    <f:facet name="header">Email</f:facet>#{contato.email}
+                    <f:facet name="header">Email</f:facet>${contato.email}
                 </h:column>
                 <h:column>
-                    <f:facet name="header">Telefone</f:facet>#{contato.telefone}
+                    <f:facet name="header">Telefone</f:facet>${contato.telefone}
                 </h:column>
                 <h:column>
-                    <f:facet name="header">Data de Nascimento</f:facet>#{contato.dataNascimento}
+                    <f:facet name="header">Data de Nascimento</f:facet>${contato.dataNascimento}
                 </h:column>
                 <h:column>
-                    <h:commandButton value="X" action="#{contatoController.excluir(contato)}" />
+                    <h:commandButton value="X" action="${contatoController.excluir(contato)}" />
                 </h:column>
                 <h:column>
-                    <h:commandButton value="editar" action="#{contatoController.editar(contato)}" />
+                    <h:commandButton value="editar" action="${contatoController.editar(contato)}" />
                 </h:column>
             </h:dataTable>
         </h:form>    
-        
+
         <br/><br/>
         <hr/>
-        <h3>Ordem Alfabetica</h3>
+        <h3>Pesquisa por Nome</h3>
         <h:form>
-            <h:inputText value="#{contatoController.contato.nome}" />
+            <h:inputText value="${contatoController.contato.nome}" />
             <button onclick="Location.reload()">Pesquisar</button>
-            <h:dataTable value="#{contatoController.pesquisarByNome()}"  var="contato">
+            <h:dataTable value="${contatoController.pesquisarByNome()}"  var="contato">
                 <h:column>
-                    <f:facet name="header">Nome</f:facet>#{contato.nome}
+                    <f:facet name="header">Nome</f:facet>${contato.nome}
                 </h:column>
                 <h:column>
-                    <f:facet name="header">Email</f:facet>#{contato.email}
+                    <f:facet name="header">Email</f:facet>${contato.email}
                 </h:column>
                 <h:column>
-                    <f:facet name="header">Telefone</f:facet>#{contato.telefone}
+                    <f:facet name="header">Telefone</f:facet>${contato.telefone}
                 </h:column>
                 <h:column>
-                    <f:facet name="header">Data de Nascimento</f:facet>#{contato.dataNascimento}
+                    <f:facet name="header">Data de Nascimento</f:facet>${contato.dataNascimento}
                 </h:column>
                 <h:column>
-                    <h:commandButton value="X" action="#{contatoController.excluir(contato)}" />
+                    <h:commandButton value="X" action="${contatoController.excluir(contato)}" rendered="${contato.nome eq ''}" />
                 </h:column>
                 <h:column>
-                    <h:commandButton value="editar" action="#{contatoController.editar(contato)}" />
+                    <h:commandButton value="editar" action="${contatoController.editar(contato)}" rendered="${contato.nome eq ''}" />
                 </h:column>
             </h:dataTable>
         </h:form>
-            
-            
-            
-            
+
+        <br/><br/>
+        <hr/>
+        <h3>Agrupar por Inicial</h3>
+        <h:form>
+            <c:set var="alphabet" value="${['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']}" scope="application" />
+            <c:forEach items="${alphabet}" var="inicial">
+                <h:dataTable value="${contatoController.agruparPorInincial(a)}"  var="contato">
+                    <h:column>
+                        <f:facet name="header">Nome</f:facet>${contato.nome}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Email</f:facet>${contato.email}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Telefone</f:facet>${contato.telefone}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Data de Nascimento</f:facet>${contato.dataNascimento}
+                    </h:column>
+                    <h:column>
+                        <h:commandButton value="X" action="${contatoController.excluir(contato)}" />
+                    </h:column>
+                    <h:column>
+                        <h:commandButton value="editar" action="${contatoController.editar(contato)}" />
+                    </h:column>
+                </h:dataTable>
+            </c:forEach>
+        </h:form> 
+
     </body>    
 </html>

@@ -135,12 +135,14 @@ public class ContatoDao implements ContatoDaoInterface {
     }
     
     @Override
-    public List<Contato> agruparContatoPorNome() {        
-        String sql = "SELECT * FROM Contato ORDER BY Nome";
+    public List<Contato> listarPorInicial(String inicial) {        
+        String sql = "SELECT * FROM Contato WHERE Nome ILIKE ?";
         List<Contato> contatos = new ArrayList<>();
 
         try {
             PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setString(1, inicial + "%");
+            
             ResultSet rs = stmt.executeQuery();
 
             while(rs.next()) {

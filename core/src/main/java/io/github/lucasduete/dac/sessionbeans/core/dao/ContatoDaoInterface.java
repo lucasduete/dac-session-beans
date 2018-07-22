@@ -10,5 +10,5 @@ public interface ContatoDaoInterface {
     public boolean excluir(Contato contato);
     public Contato recuperar(String nome);
     public List<Contato> listar();
-    public List<Contato> agruparContatoPorNome();
+    public List<Contato> listarPorInicial(String inicial);
 }
