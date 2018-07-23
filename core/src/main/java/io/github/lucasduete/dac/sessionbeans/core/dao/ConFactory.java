@@ -10,7 +10,7 @@ public class ConFactory {
     Properties props;
 
     public ConFactory(){
-        this.host = "jdbc:postgresql://127.0.0.1:5432/atividade-dac";
+        this.host = "jdbc:postgresql://banco:5432/atividade-dac";
         props = new Properties();
         props.setProperty("user", "postgres");
         props.setProperty("password", "postgres");
