@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package io.github.lucasduete.dac.sessionbeans.jse;
 
+import io.github.lucasduete.dac.sessionbeans.shared.services.ContatoServiceInterface;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,14 +8,10 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-/**
- *
- * @author aguirresabino
- */
 public class ContatoLocator {
-    private static final String SERVICE_REMOTE = "java:global/core/ContatoDao";
+    private static final String SERVICE_REMOTE = "java:global/core/ContatoService";
 
-    public <T> T lookup() {
+    public ContatoServiceInterface lookup() {
         try {
             Properties properties = new Properties();
             properties.put(InitialContext.INITIAL_CONTEXT_FACTORY,
@@ -27,7 +19,7 @@ public class ContatoLocator {
             properties.setProperty("org.omg.CORBA.ORBInitialHost", "localhost");
             properties.setProperty("org.omg.CORBA.ORBInitialPort", "3700");
             Context context = new InitialContext(properties);
-            return (T) context.lookup(SERVICE_REMOTE);
+            return (ContatoServiceInterface) context.lookup(SERVICE_REMOTE);
         } catch (NamingException ex) {
             Logger.getLogger(ContatoLocator.class.getName()).log(Level.SEVERE, null, ex);
         }
