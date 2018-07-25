@@ -29,7 +29,7 @@
     </dependencies>
 
     <build>
-        <finalName>web.war</finalName>
+        <finalName>web</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

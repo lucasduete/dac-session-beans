@@ -1,6 +1,5 @@
-package io.github.lucasduete.dac.sessionbeans.jse;
+package io.github.lucasduete.dac.sessionbeans.shared.services;
 
-import io.github.lucasduete.dac.sessionbeans.shared.services.ContatoServiceInterface;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,7 +15,7 @@ public class ContatoLocator {
             Properties properties = new Properties();
             properties.put(InitialContext.INITIAL_CONTEXT_FACTORY,
                     "com.sun.enterprise.naming.SerialInitContextFactory");
-            properties.setProperty("org.omg.CORBA.ORBInitialHost", "localhost");
+            properties.setProperty("org.omg.CORBA.ORBInitialHost", "core");
             properties.setProperty("org.omg.CORBA.ORBInitialPort", "3700");
             Context context = new InitialContext(properties);
             return (ContatoServiceInterface) context.lookup(SERVICE_REMOTE);

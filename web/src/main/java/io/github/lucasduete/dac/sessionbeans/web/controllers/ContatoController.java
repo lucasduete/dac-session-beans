@@ -1,20 +1,19 @@
 package io.github.lucasduete.dac.sessionbeans.web.controllers;
 
 import io.github.lucasduete.dac.sessionbeans.shared.entities.Contato;
+import io.github.lucasduete.dac.sessionbeans.shared.services.ContatoLocator;
 import io.github.lucasduete.dac.sessionbeans.shared.services.ContatoServiceInterface;
 import java.io.Serializable;
 
 import javax.inject.Named;
 import java.util.List;
-import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 
 @Named
 @SessionScoped
 public class ContatoController implements Serializable {
 
-    @EJB
-    ContatoServiceInterface contatoService;
+    ContatoServiceInterface contatoService = new ContatoLocator().lookup();
 
     private Contato contato = new Contato();
     private boolean modoEditando = false;

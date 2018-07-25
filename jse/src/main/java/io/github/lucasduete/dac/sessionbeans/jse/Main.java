@@ -1,6 +1,7 @@
 package io.github.lucasduete.dac.sessionbeans.jse;
 
 import io.github.lucasduete.dac.sessionbeans.shared.entities.Contato;
+import io.github.lucasduete.dac.sessionbeans.shared.services.ContatoLocator;
 import io.github.lucasduete.dac.sessionbeans.shared.services.ContatoServiceInterface;
 import java.util.Scanner;
 import java.util.List;

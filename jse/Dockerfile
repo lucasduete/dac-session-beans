@@ -1,5 +1,5 @@
-FROM openjdk:8-jdk-alpine
+FROM payara/micro
 
-COPY /target/jse.jar app.jar
+ADD /target/jse-jar-with-dependencies.jar $PAYARA_PATH/app.jar
 
-CMD ["java", "-classpath", "app.jar", "io.github.lucasduete.dac.sessionbeans.jse.Main"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
