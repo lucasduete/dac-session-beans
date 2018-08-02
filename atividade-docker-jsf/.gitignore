@@ -1,0 +1,5 @@
+target/
+.idea/
+
+atividade-docker-jsf.iml
+nb-configuration.xml
